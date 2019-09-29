@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru-RU" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+    <title>
+        ЛР-1 WEB
+    </title>
+    <style>
+       *{
+           font-family: sans-serif;
+           font-size: 10pt;
+           color: #5F5FBD;
+           font-weight: bold;
+       }
+       html{
+           margin: 2%;
+           box-shadow: 0 0 0 20px #5F5FBD, 0 0 0 10px white;
+           height: 100%;
+           overflow: hidden;
+       }
+        h1{
+            font-size: 40pt;
+            text-align: center;
+            vertical-align: middle;
+        }
+        h2{
+            font-size: 16pt;
+        }
+        body div{
+            float: left;
+        }
+        .content, .result_content{
+            height: 360px;
+            width: 50%;
+            padding: 2% 1% 0%;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .values, .picture{
+            width: 50%;
+        }
+       #result{
+           height: 360px;
+           width: 100%;
+           overflow: auto;
+           text-align: center;
+       }
+        .content{
+            float: right;
+        }
+        #super_button{
+            color: white;
+            background: #5F5FBD;
+            border: 2px solid #5F5FBD;
+            width: 100%;
+            height: 60px;
+            font-size: 25pt;
+        }
+        #super_button:hover{
+            box-shadow: 0 0 0 2px white, 0 0 0 4px #5F5FBD;
+        }
+        body{
+            margin: 0.001%;
+        }
+        #head{
+            background: #5F5FBD;
+            color: white;
+            margin: 1px;
+            height: 135px
+        }
+        .picture{
+            float: right;
+        }
+        header h2{
+            margin-left: 1%;
+        }
+       input[type=checkbox] {
+           display: none;
+       }
+       label:before {
+           content: " ";
+           margin-left: 0.1%;
+           display: inline-block;
+           width: 15px;
+           height: 15px;
+           background: #FFF;
+           border: 2px solid #e3e3e3;
+           vertical-align: bottom;
+           margin-right: 1%;
+       }
+       input[type=checkbox]:checked + label:before {
+           content: "\2713";
+           text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+           line-height: 15px;
+       }
+    </style>
+</head>
+<body>
+<header>
+    <h1 id = "head">Проверка попадания точки<br>в заданную область</h1>
+    <h2 id = "name">Беляков Дмитрий P3210<br>
+        Варинат 210002
+    </h2>
+</header>
+<div class="result_content">
+    <div id = "result">
+    </div>
+</div>
+<div class = "content">
+<div class="values">
+    <form id="form" name="form">
+        <h2 id="step1">
+            Шаг 1: выберете X.
+        </h2>
+        <input id="chb-3" name="chb-3" type="checkbox" value="-3"/>
+        <label for="chb-3">-3</label>
+        <input id="chb-2" name="chb-2" type="checkbox" value="-2"/>
+        <label for="chb-2">-2</label>
+        <input id="chb-1" name="chb-1" type="checkbox" value="-1"/>
+        <label for="chb-1">-1</label>
+        <input id="chb0" name="chb0" type="checkbox" value="0"/>
+        <label for="chb0">0</label>
+        <input id="chb1" name="chb1" type="checkbox" value="1"/>
+        <label for="chb1">1</label>
+        <input id="chb2" name="chb2" type="checkbox" value="2"/>
+        <label for="chb2">2</label>
+        <input id="chb3" name="chb3" type="checkbox" value="3"/>
+        <label for="chb3">3</label>
+        <input id="chb4" name="chb4" type="checkbox" value="4"/>
+        <label for="chb4">4</label>
+        <input id="chb5" name="chb5" type="checkbox" value="5"/>
+        <label for="chb5">5</label>
+        <p id="messageX"><br></p>
+        <h2 id="step2">
+            Шаг 2: введите Y от -5 до 5.
+        </h2>
+        <input name="Y" maxlength="15"/>
+        <p id="messageY"><br></p>
+        <h2 id="step3">
+            Шаг 3: введите R от 2 до 5.
+        </h2>
+        <input name="R" maxlength="14"/>
+        <p id="messageR"><br></p>
+        <p id="buttons">
+            <button id="super_button" type="submit">Отправить</button>
+        </p>
+    </form>
+</div>
+<div class="picture">
+    <img title="Areas" src="graphics.jpg"/>
+</div>
+</div>
+<script type="text/javascript">
+    function validate() {
+        document.getElementById("messageX").innerHTML = "<br>";
+        document.getElementById("messageY").innerHTML = "<br>";
+        document.getElementById("messageR").innerHTML = "<br>";
+        let flag = false;
+        for(let i=-3; i<6; i++){
+            if(document.getElementById("chb"+i).checked){
+                flag=true;
+                break
+            }
+        }
+        if(!flag){
+            document.getElementById("messageX").innerHTML = "Введите X";
+        }
+        let valueY = document.forms['form'].elements['Y'].value.trim();
+        if(valueY===""){
+            document.getElementById("messageY").innerHTML = "Введите Y";
+            flag = false;
+        } else {
+            if (!/^(-?\d+)([.,]\d+)?$/
+                .test(valueY)) {
+                document.getElementById("messageY").innerHTML = "Y должен быть числом";
+                flag = false;
+            } else {
+                if (!/^-?0*[0-4]([.,]\d+)?$/
+                    .test(valueY)) {
+                    flag = false;
+                    document.getElementById("messageY").innerHTML = "Y находится вне диапозона";
+                }
+            }
+        }
+        let valueR = document.forms['form'].elements['R'].value.trim();
+        if(valueR===""){
+            document.getElementById("messageR").innerHTML = "Введите R";
+            flag = false;
+        } else {
+            if (!/^(-?\d+)([.,]\d+)?$/
+                .test(valueR)) {
+                document.getElementById("messageR").innerHTML = "R должен быть числом";
+                flag = false;
+            } else {
+                if (parseFloat(valueR.replace(',','.'))<=2 || parseFloat(valueR)>=5) {
+                    flag = false;
+                    document.getElementById("messageR").innerHTML = "R находится вне диапозона";
+                }
+            }
+        }
+        return flag;
+    }
+    $('#form').submit(function () {
+        if(validate()) {
+            $.get(
+                "/~s264433/lab1WEB/post.php",
+                $('#form').serialize(),
+
+                function (msg) {
+                    $('#result').html(msg);
+                }
+            )
+        }
+        return false;
+    })
+</script>
+</body>
+</html>
